@@ -50,19 +50,19 @@ public class SexySAT
 
         while (_assignedRows != 0)
         {
-            int a = einheitsKlausel();
+            int a = unitClause();
 
             if (a != _maxVar + 1)
             {
-                removeKlausel(a);
+                unitClause(a);
             }
             else if ((a = pureLiteral()) != _maxVar + 1)
             {
-                removeKlausel(a);
+                unitClause(a);
             }
             else
             {
-                removeKlausel(add());
+                unitClause(add());
             }
         }
 
@@ -100,8 +100,8 @@ public class SexySAT
 
     }
 
-    public int einheitsKlausel() {
-        Set<Integer> einheitsklauseln = new HashSet<Integer>();
+    public int unitClause() {
+        Set<Integer> unitClause = new HashSet<Integer>();
         int remove = _maxVar + 1;
         for (int i = 0; i < _maxRows; i++)
         {
@@ -119,12 +119,12 @@ public class SexySAT
 
             if (x == 1)
             {
-                if (einheitsklauseln.contains((_formula[i][last] * (-1))))
+                if (unitClause.contains((_formula[i][last] * (-1))))
                 {
                     System.out.println("UNSATISFIABLE! NOT SEXY!!");
                     System.exit(0);
                 }
-                einheitsklauseln.add(_formula[i][last]);
+                unitClause.add(_formula[i][last]);
                 remove = _formula[i][last];
             }
         }
@@ -166,7 +166,7 @@ public class SexySAT
         return result;
     }
 
-    public void removeKlausel(int remove) {
+    public void unitClause(int remove) {
         for (int i = 0; i < _maxRows; i++)
         {
             for (int k = 0; k < 30; k++)
